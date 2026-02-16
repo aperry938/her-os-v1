@@ -1,4 +1,5 @@
 const MEMORY_KEY = 'her_os_memory';
+const MAX_MESSAGES = 50;
 
 export const getMemory = () => {
     try {
@@ -14,8 +15,7 @@ export const addToMemory = (role, content) => {
     try {
         const current = getMemory();
         const updated = [...current, { role, content, timestamp: Date.now() }];
-        // Keep only last 20 messages to save context window/storage
-        const trimmed = updated.slice(-20);
+        const trimmed = updated.slice(-MAX_MESSAGES);
         localStorage.setItem(MEMORY_KEY, JSON.stringify(trimmed));
         return trimmed;
     } catch (e) {
@@ -26,4 +26,27 @@ export const addToMemory = (role, content) => {
 
 export const clearMemory = () => {
     localStorage.removeItem(MEMORY_KEY);
+};
+
+export const exportMemory = (persona) => {
+    const memory = getMemory();
+    const exportData = {
+        application: 'Her OS',
+        exportedAt: new Date().toISOString(),
+        persona,
+        messageCount: memory.length,
+        messages: memory.map(m => ({
+            role: m.role,
+            content: m.content,
+            timestamp: new Date(m.timestamp).toISOString(),
+        }))
+    };
+
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `her-os-transcript-${persona}-${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
 };
