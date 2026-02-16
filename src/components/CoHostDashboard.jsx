@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
-import { Mic, Shuffle, MessageSquare } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Mic, Shuffle, MessageSquare, AlertCircle } from 'lucide-react';
 import VoiceIndicator from './VoiceIndicator';
 import { playClick, playHover } from '../utils/audio';
-import { sendMessageToLLM } from '../services/llm';
+import { sendMessageToLLMStreaming } from '../services/llm';
 import { speechService } from '../services/speech';
 
 const TOPICS = [
@@ -21,7 +21,8 @@ const CoHostDashboard = ({ persona = 'wendy', onTopicChange }) => {
     const [currentTopic, setCurrentTopic] = useState(TOPICS[0]);
     const [isRecording, setIsRecording] = useState(false);
     const [isProcessing, setIsProcessing] = useState(false);
-    const [aiState, setAiState] = useState('idle'); // idle, listening, thinking, speaking
+    const [aiState, setAiState] = useState('idle'); // idle, listening, thinking, speaking, error
+    const [errorMsg, setErrorMsg] = useState(null);
 
     // Ref to keep track of mounted state to prevent updates on unmounted component
     const isMounted = useRef(true);
@@ -34,20 +35,28 @@ const CoHostDashboard = ({ persona = 'wendy', onTopicChange }) => {
         };
     }, []);
 
+    // Auto-clear error after 5 seconds
+    useEffect(() => {
+        if (errorMsg) {
+            const timer = setTimeout(() => { setErrorMsg(null); setAiState('idle'); }, 5000);
+            return () => clearTimeout(timer);
+        }
+    }, [errorMsg]);
+
     const generateAIResponse = async (prompt) => {
         if (!isMounted.current) return;
 
         setIsProcessing(true);
         setAiState('thinking');
+        setErrorMsg(null);
 
         try {
-            // Get API Key from localStorage (assuming it's stored there from a previous setup step)
             const apiKey = localStorage.getItem('her_os_api_key') || import.meta.env.VITE_GEMINI_API_KEY;
 
             if (!apiKey) {
-                alert("Please set your API Key in the settings first.");
+                setAiState('error');
+                setErrorMsg("Please set your API key in Settings first.");
                 setIsProcessing(false);
-                setAiState('idle');
                 return;
             }
 
@@ -58,7 +67,7 @@ const CoHostDashboard = ({ persona = 'wendy', onTopicChange }) => {
                 { role: 'user', content: prompt }
             ];
 
-            const response = await sendMessageToLLM(apiKey, messages);
+            const response = await sendMessageToLLMStreaming(apiKey, messages);
 
             if (isMounted.current && response) {
                 setAiState('speaking');
@@ -67,7 +76,10 @@ const CoHostDashboard = ({ persona = 'wendy', onTopicChange }) => {
             }
         } catch (error) {
             console.error("AI Error:", error);
-            if (isMounted.current) setAiState('error');
+            if (isMounted.current) {
+                setAiState('error');
+                setErrorMsg(error.message || "Failed to get AI response.");
+            }
         } finally {
             if (isMounted.current) setIsProcessing(false);
         }
@@ -121,6 +133,21 @@ const CoHostDashboard = ({ persona = 'wendy', onTopicChange }) => {
             <h2 className="text-3xl font-light tracking-[0.2em] mb-16 text-white/90 uppercase text-glow">
                 {persona === 'wendy' ? 'Wendy & I' : 'Liz & I'}
             </h2>
+
+            {/* Error Banner */}
+            <AnimatePresence>
+                {errorMsg && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        className="mb-6 px-5 py-3 rounded-full bg-red-500/80 text-white text-sm font-medium flex items-center gap-2 backdrop-blur-md"
+                    >
+                        <AlertCircle className="w-4 h-4 shrink-0" />
+                        {errorMsg}
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             <div className="flex items-center justify-center gap-20 w-full max-w-4xl">
                 {/* User Visualizer (Simple Waveform Simulation) */}

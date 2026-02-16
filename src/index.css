@@ -65,15 +65,15 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-/* Focus-visible for keyboard navigation */
+/* Focus-visible for keyboard navigation — WCAG AA contrast */
 *:focus-visible {
-  outline: 2px solid rgba(255, 255, 255, 0.6);
+  outline: 2px solid rgba(255, 255, 255, 0.85);
   outline-offset: 2px;
   border-radius: 8px;
 }
 
 button:focus-visible {
-  outline: 2px solid rgba(255, 255, 255, 0.6);
+  outline: 2px solid rgba(255, 255, 255, 0.85);
   outline-offset: 2px;
 }
 
