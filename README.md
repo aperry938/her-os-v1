@@ -59,7 +59,7 @@ The full video corpus is available on YouTube: [youtube.com/@anth.onomous](https
 - **State Management**: React Hooks (`useState`, `useEffect`, `useRef`).
 
 ### AI & Services
-- **LLM Integration**: Google Gemini API (with automatic model fallback: `gemini-2.5-pro` → `gemini-2.5-flash` → `gemini-2.0-flash`). Also supports OpenAI API keys.
+- **LLM Integration**: Google Gemini API with SSE streaming (model fallback: `gemini-2.5-flash` → `gemini-2.0-flash`). Also supports OpenAI API keys.
 - **Speech Services**: Web Speech API for native browser-based recognition and synthesis, ensuring low latency and privacy.
 - **Memory Management**: LocalStorage-based conversation history with automatic truncation to maintain context across sessions.
 - **Audio Feedback**: Web Audio API oscillator-based UI sounds, lazy-initialized to respect browser autoplay policies.

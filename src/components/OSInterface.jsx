@@ -208,27 +208,27 @@ const OSInterface = () => {
               onClick={() => switchMode('home')}
               onMouseEnter={playHover}
               aria-label="Home"
-              className={`p-2 md:p-2.5 rounded-full transition-colors ${mode === 'home' ? 'bg-white/20 shadow-inner' : 'hover:bg-white/10'}`}
+              className={`p-3 md:p-2.5 rounded-full transition-colors ${mode === 'home' ? 'bg-white/20 shadow-inner' : 'hover:bg-white/10'}`}
             >
-              <Menu className="w-4 h-4 md:w-5 md:h-5" />
+              <Menu className="w-5 h-5" />
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.1 }}
               onClick={() => switchMode('cohost')}
               onMouseEnter={playHover}
               aria-label="Co-Host Radio Mode"
-              className={`p-2 md:p-2.5 rounded-full transition-colors ${mode === 'cohost' ? 'bg-white/20 shadow-inner' : 'hover:bg-white/10'}`}
+              className={`p-3 md:p-2.5 rounded-full transition-colors ${mode === 'cohost' ? 'bg-white/20 shadow-inner' : 'hover:bg-white/10'}`}
             >
-              <Radio className="w-4 h-4 md:w-5 md:h-5" />
+              <Radio className="w-5 h-5" />
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.1 }}
               onClick={() => switchMode('game')}
               onMouseEnter={playHover}
               aria-label="Game Mode"
-              className={`p-2 md:p-2.5 rounded-full transition-colors ${mode === 'game' ? 'bg-white/20 shadow-inner' : 'hover:bg-white/10'}`}
+              className={`p-3 md:p-2.5 rounded-full transition-colors ${mode === 'game' ? 'bg-white/20 shadow-inner' : 'hover:bg-white/10'}`}
             >
-              <Gamepad2 className="w-4 h-4 md:w-5 md:h-5" />
+              <Gamepad2 className="w-5 h-5" />
             </motion.button>
           </nav>
           <motion.span
@@ -257,9 +257,9 @@ const OSInterface = () => {
             onClick={togglePersona}
             onMouseEnter={playHover}
             aria-label="Switch AI Persona"
-            className="md:hidden p-2 rounded-full hover:bg-white/10 transition-colors"
+            className="md:hidden p-3 rounded-full hover:bg-white/10 transition-colors"
           >
-            <User className="w-4 h-4" />
+            <User className="w-5 h-5" />
           </motion.button>
 
           <motion.button
@@ -267,9 +267,9 @@ const OSInterface = () => {
             onClick={() => setShowTranscript(!showTranscript)}
             onMouseEnter={playHover}
             aria-label="Toggle transcript"
-            className={`p-2 rounded-full transition-colors ${showTranscript ? 'bg-white/20' : 'hover:bg-white/10'}`}
+            className={`p-3 md:p-2 rounded-full transition-colors ${showTranscript ? 'bg-white/20' : 'hover:bg-white/10'}`}
           >
-            <MessageSquare className="w-4 h-4 opacity-70" />
+            <MessageSquare className="w-5 h-5 md:w-4 md:h-4 opacity-70" />
           </motion.button>
 
           <motion.button
@@ -277,9 +277,9 @@ const OSInterface = () => {
             onClick={() => setShowSettings(true)}
             onMouseEnter={playHover}
             aria-label="Settings"
-            className="p-2 rounded-full hover:bg-white/10 transition-colors"
+            className="p-3 md:p-2 rounded-full hover:bg-white/10 transition-colors"
           >
-            <Settings className="w-4 h-4 opacity-70" />
+            <Settings className="w-5 h-5 md:w-4 md:h-4 opacity-70" />
           </motion.button>
 
           <div className="hidden md:block h-4 w-px bg-white/15" />

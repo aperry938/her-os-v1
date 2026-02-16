@@ -48,5 +48,6 @@ export const exportMemory = (persona) => {
     a.href = url;
     a.download = `her-os-transcript-${persona}-${new Date().toISOString().slice(0, 10)}.json`;
     a.click();
-    URL.revokeObjectURL(url);
+    // Delay revocation so the browser has time to initiate the download
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
 };
