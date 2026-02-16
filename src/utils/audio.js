@@ -1,24 +1,32 @@
-// Simple synth for UI sounds
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+// Simple synth for UI sounds — lazy-initialized to avoid browser autoplay warnings
+let audioCtx = null;
 
-const playTone = (freq, type, duration, vol = 0.1) => {
+const getAudioContext = () => {
+    if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
     if (audioCtx.state === 'suspended') {
         audioCtx.resume();
     }
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
+    return audioCtx;
+};
+
+const playTone = (freq, type, duration, vol = 0.1) => {
+    const ctx = getAudioContext();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
 
     osc.type = type;
-    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+    osc.frequency.setValueAtTime(freq, ctx.currentTime);
 
-    gain.gain.setValueAtTime(vol, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+    gain.gain.setValueAtTime(vol, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration);
 
     osc.connect(gain);
-    gain.connect(audioCtx.destination);
+    gain.connect(ctx.destination);
 
     osc.start();
-    osc.stop(audioCtx.currentTime + duration);
+    osc.stop(ctx.currentTime + duration);
 };
 
 export const playHover = () => playTone(400, 'sine', 0.1, 0.05);

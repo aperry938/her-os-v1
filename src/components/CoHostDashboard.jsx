@@ -42,7 +42,7 @@ const CoHostDashboard = ({ persona = 'wendy', onTopicChange }) => {
 
         try {
             // Get API Key from localStorage (assuming it's stored there from a previous setup step)
-            const apiKey = import.meta.env.VITE_GEMINI_API_KEY || localStorage.getItem('gemini_api_key') || localStorage.getItem('openai_api_key');
+            const apiKey = localStorage.getItem('her_os_api_key') || import.meta.env.VITE_GEMINI_API_KEY;
 
             if (!apiKey) {
                 alert("Please set your API Key in the settings first.");
@@ -147,7 +147,7 @@ const CoHostDashboard = ({ persona = 'wendy', onTopicChange }) => {
                 {/* AI Visualizer */}
                 <div className="flex flex-col items-center gap-4">
                     <div className="scale-75">
-                        <VoiceIndicator state={aiState === 'speaking' ? 'speaking' : aiState === 'thinking' ? 'thinking' : 'idle'} />
+                        <VoiceIndicator state={aiState === 'speaking' ? 'speaking' : aiState === 'thinking' ? 'processing' : 'idle'} />
                     </div>
                     <span className="text-sm font-medium tracking-wider opacity-70 uppercase">{persona}</span>
                 </div>
