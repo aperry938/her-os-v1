@@ -42,7 +42,7 @@ const CoHostDashboard = ({ persona = 'wendy', onTopicChange }) => {
 
         try {
             // Get API Key from localStorage (assuming it's stored there from a previous setup step)
-            const apiKey = localStorage.getItem('gemini_api_key') || localStorage.getItem('openai_api_key');
+            const apiKey = import.meta.env.VITE_GEMINI_API_KEY || localStorage.getItem('gemini_api_key') || localStorage.getItem('openai_api_key');
 
             if (!apiKey) {
                 alert("Please set your API Key in the settings first.");
