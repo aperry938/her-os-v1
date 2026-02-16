@@ -1,0 +1,19 @@
+{
+  "appId": "com.heros.app",
+  "appName": "Her OS",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": true,
+      "backgroundColor": "#D94436",
+      "showSpinner": false
+    },
+    "StatusBar": {
+      "style": "LIGHT",
+      "backgroundColor": "#D94436"
+    }
+  }
+}

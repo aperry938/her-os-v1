@@ -122,3 +122,7 @@ dist
 config.local.js
 secrets.js
 check_models.js
+
+# Capacitor native platforms
+android/
+ios/
