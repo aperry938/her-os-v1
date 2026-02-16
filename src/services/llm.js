@@ -1,5 +1,20 @@
 // Client for OpenAI and Gemini Chat Completion APIs
+// Simple in-memory rate limiter
+const RATE_LIMIT_WINDOW = 60000; // 1 minute
+const MAX_REQUESTS_PER_WINDOW = 10;
+let requestTimestamps = [];
+
 export const sendMessageToLLM = async (apiKey, messages, model = 'gpt-4-turbo-preview') => {
+    // Check Rate Limit
+    const now = Date.now();
+    requestTimestamps = requestTimestamps.filter(t => now - t < RATE_LIMIT_WINDOW);
+
+    if (requestTimestamps.length >= MAX_REQUESTS_PER_WINDOW) {
+        throw new Error("Rate limit exceeded. Please wait a moment before trying again.");
+    }
+
+    requestTimestamps.push(now);
+
     if (!apiKey) {
         throw new Error("API Key is missing.");
     }
@@ -103,7 +118,12 @@ const sendMessageToGemini = async (apiKey, messages) => {
                 throw new Error("Gemini returned no candidates. Check safety settings.");
             }
 
-            return data.candidates[0].content.parts[0].text;
+            const candidate = data.candidates[0];
+            if (!candidate.content || !candidate.content.parts || candidate.content.parts.length === 0) {
+                throw new Error("Gemini candidate missing content or parts.");
+            }
+
+            return candidate.content.parts[0].text;
         } catch (error) {
             throw error;
         }

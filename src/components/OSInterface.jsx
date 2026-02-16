@@ -17,7 +17,7 @@ const OSInterface = () => {
   const [messages, setMessages] = useState([]);
   const [mode, setMode] = useState('home');
   const [persona, setPersona] = useState('wendy');
-  const [apiKey, setApiKey] = useState(localStorage.getItem('openai_api_key') || '');
+  const [apiKey, setApiKey] = useState(import.meta.env.VITE_GEMINI_API_KEY || localStorage.getItem('openai_api_key') || '');
   const [showSettings, setShowSettings] = useState(false);
   const [tempKey, setTempKey] = useState('');
   const [error, setError] = useState(null);
