@@ -14,13 +14,6 @@ export default {
                     dark: '#2C1A1A',
                     soft: '#E6B8A2'
                 },
-                os: {
-                    red: '#D94436',
-                    orange: '#E87C56',
-                    cream: '#F2E8DC',
-                    dark: '#2C1A1A',
-                    soft: '#E6B8A2'
-                },
             },
             fontFamily: {
                 sans: ['Inter', 'system-ui', 'sans-serif'],

@@ -129,20 +129,13 @@ const sendMessageToGemini = async (apiKey, messages) => {
         }
     };
 
-    // Try gemini-3-pro-preview first, then fallback to gemini-2.5-pro
-    try {
-        return await makeGeminiRequest('gemini-3-pro-preview');
-    } catch (error) {
-        console.warn("Gemini 3 Pro Preview failed, trying fallback to gemini-2.5-pro:", error.message);
+    const models = ['gemini-2.5-pro', 'gemini-2.5-flash', 'gemini-2.0-flash'];
+    for (let i = 0; i < models.length; i++) {
         try {
-            return await makeGeminiRequest('gemini-2.5-pro');
-        } catch (fallbackError) {
-            console.warn("Gemini 2.5 Pro failed, trying fallback to gemini-2.5-flash:", fallbackError.message);
-            try {
-                return await makeGeminiRequest('gemini-2.5-flash');
-            } catch (finalError) {
-                console.error("All Gemini Models Failed:", finalError);
-                throw new Error(`Gemini API Error: ${finalError.message}`);
+            return await makeGeminiRequest(models[i]);
+        } catch (error) {
+            if (i === models.length - 1) {
+                throw new Error(`Gemini API Error: ${error.message}`);
             }
         }
     }

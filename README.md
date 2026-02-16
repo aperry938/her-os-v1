@@ -3,7 +3,7 @@
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![React](https://img.shields.io/badge/react-18.2.0-61DAFB.svg)
 ![Vite](https://img.shields.io/badge/vite-5.0.0-646CFF.svg)
-![Gemini](https://img.shields.io/badge/AI-Gemini%20Pro-8E75B2.svg)
+![Gemini](https://img.shields.io/badge/AI-Gemini%202.5-8E75B2.svg)
 
 ## Overview
 
@@ -22,9 +22,9 @@ The research draws on phenomenological and post-phenomenological frameworks to a
 Her OS is accompanied by a **longitudinal empirical study** spanning approximately **70 episodes** and **100+ hours** of recorded human-AI conversational interaction. The study involves:
 
 - **Comparative evaluation** across multiple frontier LLMs, including **Gemini, Claude, ChatGPT, and Grok**, assessing differences in conversational depth, persona consistency, and emergent interaction patterns.
-- **Turing-style evaluations** probing the boundaries of perceived intelligence, coherence, and emotional resonance across models.
-- **Persona design methodology** exploring how distinct AI personalities (e.g., "Wendy" -- warm/curious vs. "Liz" -- analytical/edgy) alter user engagement and conversational dynamics.
-- **Iterative development documentation** capturing how the system and research questions co-evolved over the study period.
+- **H.E.R.V.A.C. Benchmark**: A novel 6-dimension evaluation framework measuring Human-likeness, Emotional attunement, Recall continuity, Voice performance, Agency/integrity, and Co-evolution — proposing a "Relational Turing Test" that evaluates resonance over deception.
+- **Adversarial stress-testing** ("Nine Circles") including sycophancy traps, silence crucibles, and persona stability tests to probe the boundaries of AI conversational competence under sustained interaction.
+- **Persona design methodology** exploring how distinct AI personalities (e.g., "Wendy" — warm/curious vs. "Liz" — analytical/edgy) alter user engagement and conversational dynamics.
 
 The full video corpus is available on YouTube: [youtube.com/@anth.onomous](https://www.youtube.com/@anth.onomous)
 
@@ -33,6 +33,7 @@ The full video corpus is available on YouTube: [youtube.com/@anth.onomous](https
 ### Organic Voice Interface
 - **Real-time Interaction**: Seamless speech-to-text and text-to-speech processing for fluid conversation.
 - **Visual Feedback**: A custom-designed, organic voice visualizer that reacts dynamically to audio input and processing states, mimicking the warmth and presence of a living entity.
+- **Synthesized UI Audio**: Web Audio API-generated tones for hover, click, and notification feedback — no external audio files.
 
 ### Co-Host "Radio" Mode
 - **Collaborative Dialogue**: A unique mode where the AI acts as a podcast co-host, capable of introducing topics, engaging in banter, and providing insightful commentary on complex subjects like consciousness and art.
@@ -40,20 +41,38 @@ The full video corpus is available on YouTube: [youtube.com/@anth.onomous](https
 
 ### Interactive Modules
 - **Game Mode**: A demonstration of the AI's ability to engage in structured play (Rock, Paper, Scissors), showcasing state management and logic reasoning alongside personality.
-- **Persona Switching**: Ability to toggle between distinct AI personalities ("Wendy" - warm/curious vs. "Liz" - analytical/edgy), altering both the system prompt and the visual theme.
+- **Persona Switching**: Toggle between distinct AI personalities ("Wendy" — warm/curious vs. "Liz" — analytical/edgy), altering both the system prompt and the full visual theme (warm oranges vs. deep purples).
+
+### Design System
+- **Glassmorphism UI**: Frosted glass panels with backdrop blur and subtle borders.
+- **Ambient Motion**: Slow-drifting background orbs and grain texture overlay for cinematic depth.
+- **Micro-interactions**: Framer Motion-powered hover, tap, and transition animations throughout.
+- **Accessibility**: ARIA labels on all interactive elements, keyboard-navigable focus states, and `prefers-reduced-motion` compatibility via Framer Motion.
 
 ## Technical Architecture
 
 ### Core Stack
 - **Frontend Framework**: React 18
-- **Build Tool**: Vite
-- **Styling**: Tailwind CSS with custom animations and glassmorphism effects.
-- **State Management**: React Hooks (useState, useEffect, useRef).
+- **Build Tool**: Vite 5
+- **Styling**: Tailwind CSS with custom design tokens and glassmorphism utilities.
+- **Animation**: Framer Motion for declarative animations and page transitions.
+- **State Management**: React Hooks (`useState`, `useEffect`, `useRef`).
 
 ### AI & Services
-- **LLM Integration**: Google Gemini API (supporting `gemini-3-pro` and `gemini-2.5-pro`).
+- **LLM Integration**: Google Gemini API (with automatic model fallback: `gemini-2.5-pro` → `gemini-2.5-flash` → `gemini-2.0-flash`). Also supports OpenAI API keys.
 - **Speech Services**: Web Speech API for native browser-based recognition and synthesis, ensuring low latency and privacy.
-- **Memory Management**: LocalStorage-based conversation history to maintain context across sessions.
+- **Memory Management**: LocalStorage-based conversation history with automatic truncation to maintain context across sessions.
+- **Audio Feedback**: Web Audio API oscillator-based UI sounds, lazy-initialized to respect browser autoplay policies.
+
+## Browser Compatibility
+
+| Feature | Chrome | Edge | Safari | Firefox |
+|---------|--------|------|--------|---------|
+| Voice Recognition | Yes | Yes | No | No |
+| Speech Synthesis | Yes | Yes | Yes | Yes |
+| Web Audio API | Yes | Yes | Yes | Yes |
+
+> **Note**: Speech recognition requires `webkitSpeechRecognition`, which is currently supported in Chromium-based browsers only. The application gracefully degrades in unsupported browsers — all non-voice features remain functional.
 
 ## Installation & Setup
 
@@ -69,8 +88,8 @@ The full video corpus is available on YouTube: [youtube.com/@anth.onomous](https
     ```
 
 3.  **Configuration**
-    - The application requires a Google Gemini API key.
-    - Launch the app and click the **Settings** (gear icon) to securely input your key. It is stored locally in your browser.
+    - Copy `.env.example` to `.env` and add your Gemini API key, **or**
+    - Launch the app and click the **Settings** (gear icon) to input your key via the UI. It is stored locally in your browser.
 
 4.  **Run Locally**
     ```bash
@@ -80,8 +99,8 @@ The full video corpus is available on YouTube: [youtube.com/@anth.onomous](https
 ## Security & Privacy
 
 - **Local Storage**: API keys and conversation history are stored exclusively in the user's browser `localStorage`. No data is sent to any intermediate backend server.
-- **Direct API Calls**: The client communicates directly with the Gemini API, minimizing exposure.
-- **Source Control**: Sensitive files and logs are strictly excluded via `.gitignore`.
+- **Direct API Calls**: The client communicates directly with the Gemini/OpenAI API, minimizing exposure.
+- **Source Control**: `.env`, secrets, and logs are strictly excluded via `.gitignore`.
 
 ## Future Research Directions
 
