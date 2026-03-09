@@ -9,11 +9,11 @@
 
 **Her OS** is a conceptual exploration of human-AI interaction, inspired by the cinematic aesthetic of the film *Her*. This project serves as a research prototype for an emotionally resonant, voice-first operating system. It moves beyond traditional command-response paradigms to foster more organic, conversational, and empathetic engagements between users and artificial intelligence.
 
-Developed as part of a PhD portfolio, this application demonstrates advanced integration of Large Language Models (LLMs) with real-time speech synthesis and recognition in a web-based environment.
+Developed as a research prototype, this application demonstrates advanced integration of Large Language Models (LLMs) with real-time speech synthesis and recognition in a web-based environment.
 
 ## Research Context
 
-This project is a PhD portfolio piece investigating the **phenomenological dimensions of human-AI relationship**. Rather than treating conversational AI as a purely utilitarian tool, Her OS examines how interaction design, persona construction, and voice modality shape the subjective experience of engaging with a language model.
+This project is a research investigation into the **phenomenological dimensions of human-AI relationship**. Rather than treating conversational AI as a purely utilitarian tool, Her OS examines how interaction design, persona construction, and voice modality shape the subjective experience of engaging with a language model.
 
 The research draws on phenomenological and post-phenomenological frameworks to ask: *How do users experience presence, empathy, and rapport with an AI system, and how do deliberate design choices in persona, voice, and interface aesthetics mediate those experiences?*
 
@@ -115,4 +115,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-*Created by Anthony Perry for PhD Portfolio Research.*
+*Created by Anthony Perry.*
